@@ -36,11 +36,16 @@ const POINTS = [
       "Factory extensions and manufacturing plant expansion can be considered during the original engineering, reducing what needs to be reworked when the facility grows.",
   },
   {
-    label: "Safe Construction & Pre-Handover Inspection",
+    label: "Safe Construction & Pre-Handover Inspection ",
     description:
       "ISO 9001:2015 and CE-certified processes support fabrication quality with documentation your project and compliance teams can verify.",
   },
 ] as const;
+
+// Figma staggers the rows: right-aligned, each with its own width (px)
+const ROW_WIDTHS = [700, 666, 645, 645, 666, 700] as const;
+// Collapsed row heights from Figma (px, border included)
+const ROW_HEIGHTS = [60, 60, 85.5, 86, 67.5, 84] as const;
 
 /* ============================================================
    FACTORY ADVANTAGE SECTION
@@ -73,7 +78,7 @@ export default function FactoryAdvantageSection() {
           {/* Layer 1: full-bleed factory photo with the "we build factories" billboard */}
           <div className="absolute left-0 top-[-0.33px] h-[865.333px] w-[1920px] overflow-hidden">
             <Image
-              src="/advantage/factory-bg.webp"
+              src="/advantage/factory-bg-v2.webp"
               alt="Mekark factory under construction with a billboard reading: we build factories, you build future"
               width={1000}
               height={640}
@@ -84,7 +89,7 @@ export default function FactoryAdvantageSection() {
 
           {/* Layers 2–4: red L-shaped panel + light-to-red gradient on its top edge */}
           <div className="absolute left-[1004px] top-[-0.33px] h-[568px] w-[916px] bg-[#e60f1a]" />
-          <div className="absolute left-[1047px] top-[514px] h-[224px] w-[873px] bg-[#e60f1a]" />
+          <div className="absolute left-[1047px] top-[489px] h-[224px] w-[873px] bg-[#e60f1a]" />
           <Image
             src="/advantage/panel-overlay.webp"
             alt=""
@@ -97,8 +102,8 @@ export default function FactoryAdvantageSection() {
           {/* ======================================================
               COPY — heading + sub-heading
               ====================================================== */}
-          <div className="absolute left-[1099px] top-[40.33px] flex w-[782.667px] flex-col items-start justify-center gap-[25px] py-[6px]">
-            <h2 className="w-full text-[53.333px] font-extrabold leading-[60px] tracking-[-1.3333px] text-[#030303]">
+          <div className="absolute left-[1102px] top-[40.33px] flex w-[782.667px] flex-col items-start justify-center gap-[25px] py-[6px]">
+            <h2 className="w-full [text-box-edge:cap_alphabetic] [text-box-trim:trim-both] text-[53.333px] font-extrabold leading-[60px] tracking-[-1.3333px] text-[#030303]">
               Why Top Industries
               <br />
               Choose Mekark
@@ -112,26 +117,28 @@ export default function FactoryAdvantageSection() {
           {/* ======================================================
               ACCORDION — six right-aligned rows, scrolls when a row is open
               ====================================================== */}
-          <div className="absolute left-[1099px] top-[216px] h-[523px] w-[750px]">
-            <ul className="flex h-full w-full flex-col items-end gap-[10px] overflow-y-auto overflow-x-clip [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="absolute left-[1102px] top-[216px] h-[452px] w-[710px] overflow-hidden">
+            <ul className="flex h-full w-full flex-col items-end gap-[10px] pt-[5px] overflow-y-auto overflow-x-clip [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {POINTS.map((point, i) => {
                 const isOpen = openIndex === i;
                 const isLast = i === POINTS.length - 1;
+                const width = ROW_WIDTHS[i];
                 return (
                   <li
                     key={point.label}
-                    className={`w-[718px] shrink-0 text-white ${isLast ? "" : "border-b-[1.333px] border-solid border-[#e58282]"}`}
+                    style={{ width, minHeight: ROW_HEIGHTS[i] }}
+                    className={`shrink-0 text-white ${isLast ? "" : "border-b-[1.333px] border-solid border-[#e58282]"}`}
                   >
                     <button
                       type="button"
                       aria-expanded={isOpen}
                       onClick={() => setOpenIndex(isOpen ? null : i)}
-                      className="flex w-full cursor-pointer items-start pb-[13.333px] pr-[19px] pt-[12px] text-left"
+                      className="flex w-full cursor-pointer items-center pb-[13.333px] pt-[12px] text-left"
                     >
-                      <span className="w-[37px] shrink-0 text-[24px] font-bold leading-[29.867px]">
+                      <span className="w-[37px] shrink-0 self-start text-[24px] font-bold leading-[29.867px]">
                         {i + 1}.
                       </span>
-                      <span className="block w-[492px] shrink-0 text-[24px] font-bold leading-[29.867px]">
+                      <span className="block w-[492px] shrink-0 self-start text-[24px] font-bold leading-[29.867px]">
                         {point.label}
                       </span>
                       <img
@@ -160,10 +167,10 @@ export default function FactoryAdvantageSection() {
             <Image
               src="/advantage/list-fade.webp"
               alt=""
-              width={750}
-              height={73}
-              sizes="750px"
-              className="pointer-events-none absolute bottom-0 left-0 h-[73px] w-[750px] max-w-none object-cover"
+              width={723}
+              height={55}
+              sizes="723px"
+              className="pointer-events-none absolute bottom-[-60px] left-[-13px] h-[55px] w-[723px] max-w-none object-cover"
             />
           </div>
 

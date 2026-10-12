@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useId, useState } from "react";
 
-// Figma 8701:2674: the mobile design contains five rows, numbered 1–4 and 6.
+// Figma 8701:2677: six rows. The design reuses the same automation copy for rows 5 and 6.
 const POINTS = [
   {
     number: 1,
@@ -28,6 +28,12 @@ const POINTS = [
     label: "Factory Expansion Without Disrupting Production",
     description:
       "As a turnkey factory expansion contractor and industrial building expansion contractor\nwe plan and execute factory building extensions and industrial shed extension work around your running operations. We match the new bay to the existing structure, so your factory facility expansion adds capacity with minimal downtime.",
+  },
+  {
+    number: 5,
+    label: "Fully Automated Steel Production",
+    description:
+      "The latest automation ensures consistency and reduces human error. Our automated manufacturing process will cut, weld, and finish all members of your structure to the same specifications, ensuring consistent quality for each component.",
   },
   {
     number: 6,
