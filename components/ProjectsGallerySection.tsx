@@ -111,7 +111,7 @@ export default function ProjectsGallerySection() {
               </h2>
             </div>
             <p className="w-full text-[18px] font-medium leading-[28px] text-[#64748b] xl:text-[24px] xl:leading-[36px]">
-               Our Completed Projects.
+               Our Completed Projects Across India.
             </p>
           </div>
 

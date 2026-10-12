@@ -89,7 +89,7 @@ export default function ProcessMobile() {
         <div className="flex w-full flex-col items-start gap-[6px]">
           <h2 className="w-full text-[28px] font-bold leading-[34px] text-[#0f172a]">
             Our <span className="text-[#ed1d23]">Turnkey Factory</span>{" "}
-            Construction
+            Construction Process
           </h2>
           <p className="w-full text-[14px] font-normal leading-[20px] text-[#64748b]">
             From the first consultation to final handover, our factory
