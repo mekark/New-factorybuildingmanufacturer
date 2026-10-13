@@ -155,11 +155,11 @@ export default function HeroMobile() {
                 className="absolute bottom-[-1px] left-0 h-auto w-full max-w-none"
               />
               <div className="absolute bottom-px left-0 h-[108px] w-full bg-[linear-gradient(182.77deg,rgba(30,30,30,0)_1.0095%,#1e1e1e_99.312%)]" />
-              <h1>
-                <span className="absolute left-5 top-[166px] block w-[calc(100%-40px)] -translate-y-1/2 text-[22px] font-bold leading-[normal] text-white">
+              <h1 className="absolute inset-x-0 bottom-[14px] flex flex-col items-start gap-[6px]">
+                <span className="block w-[calc(100%-40px)] ml-5 text-[22px] font-bold leading-[1.15] text-white">
                   Build Factory. Design to Delivery
                 </span>
-                <span className="absolute left-[-1px] top-[185px] block bg-[#c4161c] py-px pl-5 pr-2 text-[16px] font-bold leading-[normal] text-white">
+                <span className="ml-[-1px] block bg-[#c4161c] py-px pl-5 pr-2 text-[16px] font-bold leading-[normal] text-white">
                   Construction &amp; Expansion
                 </span>
               </h1>
