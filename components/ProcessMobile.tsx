@@ -102,20 +102,23 @@ export default function ProcessMobile() {
         <ol className="relative flex w-full flex-col gap-[26px]">
           {STEPS.map((step, index) => (
               <li key={step.number} className="relative flex w-full items-center gap-[17px]">
-                {/* Preserve the exported timeline's native geometry. */}
-                {index === 0 && (
-                  <img
-                    src="/process/mobile/timeline.svg"
-                    alt=""
-                    className="pointer-events-none absolute left-[15.5px] top-[43.5px] max-w-none"
-                  />
+                {/* Connector: top half from the previous step, bottom half to the next (layout-independent, so it never drifts) */}
+                {index > 0 && (
+                  <span aria-hidden className="absolute left-[16px] top-[-26px] h-[calc(50%+26px)] w-px bg-[#bcbcbc]" />
+                )}
+                {index < STEPS.length - 1 && (
+                  <span aria-hidden className="absolute left-[16px] top-1/2 h-[calc(50%+26px)] w-px bg-[#bcbcbc]" />
                 )}
 
-                {/* Step number in a dashed circle */}
+                {/* Step number in an 8-dash circle */}
                 <span
-                  className={`${spaceGrotesk.className} relative z-10 flex size-[33px] shrink-0 items-center justify-center rounded-full border border-dashed border-[#bcbcbc] bg-white pb-2 pl-2 pr-[9px] pt-[7px] text-[14px] font-bold leading-[normal] text-[#080808]`}
+                  className={`${spaceGrotesk.className} relative z-10 flex size-[33px] shrink-0 items-center justify-center rounded-full bg-white text-[14px] font-bold leading-[normal] text-[#080808]`}
                 >
-                  {step.number}
+                  <svg aria-hidden viewBox="0 0 33 33" className="absolute inset-0 size-full -rotate-90">
+                    {/* circumference 2π·15.5 ≈ 97.4 → 8 × 12.18 */}
+                    <circle cx="16.5" cy="16.5" r="15.5" fill="none" stroke="#bcbcbc" strokeWidth="1" strokeDasharray="8.5 3.68" />
+                  </svg>
+                  <span className="relative">{step.number}</span>
                 </span>
 
                 {/* Card: icon + title + description */}

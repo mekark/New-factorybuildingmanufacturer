@@ -135,6 +135,9 @@ export default function ProcessSection() {
             </div>
 
             {/* ---------- Steps grid: 6 columns on desktop ---------- */}
+            <div className="relative w-full">
+              {/* Connector line through the icon tiles, first icon centre to last */}
+              <div className="pointer-events-none absolute left-[50px] right-[calc(16.667%-73.33px)] top-[45.5px] h-[1.333px] bg-[#e4dfe0]" />
             <div className="grid w-full grid-cols-1 gap-x-[28px] gap-y-[40px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[repeat(6,minmax(0,1fr))] xl:gap-y-[30px]">
               {STEPS.map((step) => (
                 <article
@@ -142,7 +145,7 @@ export default function ProcessSection() {
                   className="flex flex-col items-start gap-[32px]"
                 >
                   {/* Icon tile: white card, 18px radius, #e4dfe0 hairline */}
-                  <div className="relative h-[92px] w-[100px] shrink-0">
+                  <div className="relative z-10 h-[92px] w-[100px] shrink-0">
                     <div className="absolute left-0 top-[-0.33px] h-[92px] w-[100px] rounded-[18px] border-[0.917px] border-solid border-[#e4dfe0] bg-white" />
                     <div
                       className={`absolute left-1/2 size-[40px] -translate-x-1/2 -translate-y-1/2 overflow-clip ${step.nudge ? "top-[calc(50%-0.33px)]" : "top-1/2"}`}
@@ -184,6 +187,7 @@ export default function ProcessSection() {
                   </div>
                 </article>
               ))}
+            </div>
             </div>
           </div>
         </div>
