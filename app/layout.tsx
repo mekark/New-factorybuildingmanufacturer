@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
+import Footer from "../components/Footer";
 import DeferredGoogleTagManager from "../components/DeferredGoogleTagManager";
 import MobileZoom from "../components/MobileZoom";
 import "./globals.css";
@@ -38,6 +39,7 @@ export default function RootLayout({
         </noscript>
         <MobileZoom />
         <div className="relative">{children}</div>
+        <Footer />
         {/* Loads GTM after the first interaction (or a 5s fallback); immediately on /thank-you */}
         <DeferredGoogleTagManager gtmId={GTM_ID} />
       </body>
