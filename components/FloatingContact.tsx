@@ -1,4 +1,4 @@
-import { PHONE_NUMBER, WHATSAPP_HREF } from "../lib/contact";
+import { PHONE_TEL_HREF, WHATSAPP_HREF } from "../lib/contact";
 
 /* ============================================================
    FLOATING CONTACT BUTTONS
@@ -17,7 +17,7 @@ export default function FloatingContact() {
     <div className="fixed bottom-5 right-4 z-[60] flex flex-col gap-3 font-sans sm:bottom-6 sm:right-6">
       {/* Call us */}
       <a
-        href={`tel:${PHONE_NUMBER}`}
+        href={PHONE_TEL_HREF}
         aria-label="Call us"
         className={`${BUTTON} bg-[#c4161c] shadow-[0_14px_30px_-12px_rgba(196,22,28,0.8)]`}
       >

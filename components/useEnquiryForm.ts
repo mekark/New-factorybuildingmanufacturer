@@ -182,3 +182,5 @@ export function useEnquiryForm() {
 
   return { values, errors, submitError, isSubmitting, handleChange, handleSubmit };
 }
+
+export type EnquiryFormBinding = ReturnType<typeof useEnquiryForm>;

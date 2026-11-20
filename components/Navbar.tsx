@@ -6,7 +6,7 @@ import { useCanvasZoom } from "./useCanvasZoom";
 
 /* ============================================================
    NAV BAR (Figma "Hero" nav, 1920 × 80)
-   Logo on the left, red "Get Free Quote" button on the right.
+   Logo on the left, red "Request an Estimate" button on the right.
    Mobile: solid black bar, sticky in the page flow.
    Desktop (1280px+): fixed over the hero and transparent at the top of the
    page, then turns solid black once the page is scrolled. The bar is zoomed
@@ -39,7 +39,7 @@ export default function Navbar() {
         className="canvas-zoom mx-auto flex w-full items-center justify-between px-5 py-3 sm:px-8 xl:w-[1920px] xl:px-[80px] xl:py-[17px]"
       >
         {/* Logo: 132 × 46 on desktop */}
-        <a href="#" aria-label="Mekark home" className="block">
+        <a href="/" aria-label="Mekark home" className="block">
           <Image
             src="/nav/logo.webp"
             alt="Mekark"
@@ -52,10 +52,10 @@ export default function Navbar() {
 
         {/* CTA: jumps to the enquiry form at the bottom of the page */}
         <a
-          href="#contact"
+          href="#project-quote-form"
           className="flex items-center justify-center whitespace-nowrap rounded-[8px] bg-[#c4161c] px-4 py-[8px] text-[14px] font-semibold leading-[normal] text-[#f5f5f5] drop-shadow-[0px_8.809px_17.618px_rgba(196,22,28,0.3)] transition-colors hover:bg-[#ad1318] xl:px-[24px] xl:py-[10px] xl:text-[16px]"
         >
-          Get Free Quote
+          Request an Estimate
         </a>
       </nav>
     </header>

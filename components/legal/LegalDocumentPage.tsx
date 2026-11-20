@@ -222,7 +222,7 @@ export function LegalDocumentPage({
 
             <div className="flex flex-col gap-2 pt-4 sm:flex-row sm:gap-6">
               <Link
-                href="/#contact"
+                href="/#project-quote-form"
                 className="text-sm font-semibold text-[#ed1c24] hover:underline"
               >
                 Contact us with questions →

@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { useRef } from "react";
-import { PHONE_DISPLAY, PHONE_NUMBER, WHATSAPP_HREF } from "../lib/contact";
-import CtaMobile from "./CtaMobile";
+import CtaContactCards from "./CtaContactCards";
+import OfficesDirectory from "./OfficesDirectory";
 import { useCanvasZoom } from "./useCanvasZoom";
 import {
   EnquiryValues,
@@ -11,7 +11,6 @@ import {
   SQFT_OPTIONS,
   useEnquiryForm,
 } from "./useEnquiryForm";
-
 /* ============================================================
    CONTENT DATA
    ============================================================ */
@@ -21,6 +20,18 @@ const INCLUDES = [
   ["Turnkey Execution", "Industrial Civil Works"],
   ["MEP & Utilities", "Tanks & Infrastructure"],
 ] as const;
+
+const CTA_MOBILE_TICKS = [
+  { label: "Turnkey Execution", row: 1, width: undefined },
+  { label: "Industrial Civil Works", row: 1, width: undefined },
+  { label: "MEP & Utilities", row: 2, width: 150 },
+  { label: "Tanks & Infrastructure", row: 2, width: 176 },
+] as const;
+
+const CTA_MOBILE_FIELD_CLASS =
+  "block w-full rounded-[8px] border border-solid border-[#e2e2e2] bg-[#f0f0f0] text-[12px] font-normal leading-[normal] text-[#18181b] outline-none transition-colors placeholder:text-[#757575] focus:border-[#c4161c]";
+
+const CTA_MOBILE_ERROR_CLASS = "mt-1 text-[11px] leading-[13px] text-[#dc2626]";
 
 /* ============================================================
    FORM FIELD STYLES (Figma: #f0f0f0 fill, #e2e2e2 1px stroke, 8px radius)
@@ -43,8 +54,9 @@ export default function CtaSection() {
   const canvasRef = useRef<HTMLDivElement>(null);
   useCanvasZoom(canvasRef);
 
+  const enquiryForm = useEnquiryForm();
   const { values, errors, submitError, isSubmitting, handleChange, handleSubmit } =
-    useEnquiryForm();
+    enquiryForm;
 
   // Error ring for invalid fields.
   const invalid = (field: keyof EnquiryValues) =>
@@ -58,16 +70,13 @@ export default function CtaSection() {
     /* ==========================================================
        SECTION WRAPPER — 1920×1034 design canvas
        ========================================================== */
-    <section id="contact" className="overflow-hidden bg-[#080b0f] font-sans">
-      {/* ---------- Mobile / tablet layout (below 1280px): separate component, see CtaMobile.tsx ---------- */}
-      <CtaMobile />
-
-      {/* ---------- Desktop layout (1280px and up): unchanged ---------- */}
-      <div className="hidden xl:block">
-        {/* ---------- Design canvas (zoomed to the viewport on desktop) ---------- */}
+    <section
+      id="project-quote-form"
+      className="overflow-hidden bg-[#080b0f] font-sans scroll-mt-[90px]"
+    >
         <div
           ref={canvasRef}
-          className="canvas-zoom relative isolate mx-auto w-full overflow-hidden px-5 py-14 sm:px-8 sm:py-16 xl:h-[1034px] xl:w-[1920px] xl:p-0"
+          className="mobile-col canvas-zoom relative isolate mx-auto w-full overflow-hidden px-5 py-8 xl:h-[1034px] xl:w-[1920px] xl:px-8 xl:py-16 xl:p-0"
         >
           {/* ---------- Background: industrial pipework photo, mirrored ---------- */}
           <div className="absolute inset-0 -z-20 -scale-x-100 xl:inset-auto xl:bottom-[0.33px] xl:left-0 xl:h-[1132px] xl:w-[2019.025px]">
@@ -89,28 +98,22 @@ export default function CtaSection() {
           {/* ======================================================
               CONTENT — copy + contact cards on the left, enquiry form on the right
               ====================================================== */}
-          <div className="relative flex flex-col gap-12 xl:absolute xl:left-[106.67px] xl:top-[82.19px] xl:flex-row xl:items-center xl:gap-[181px]">
+          <div className="relative flex flex-col xl:absolute xl:left-[106.67px] xl:top-[82.19px] xl:flex-row xl:items-center xl:gap-[181px]">
             {/* ====================================================
                 LEFT COLUMN
                 ==================================================== */}
-            <div className="flex w-full flex-col items-start gap-[20px] xl:w-[837.333px] xl:shrink-0">
+            <div className="flex w-full flex-col items-start gap-[20px] max-xl:contents xl:w-[837.333px] xl:shrink-0">
               {/* Heading + intro paragraph */}
-              <div className="flex w-full flex-col items-start gap-[16px] xl:gap-[25.467px]">
+              <div className="flex w-full flex-col items-start gap-[16px] max-xl:mb-5 xl:gap-[25.467px]">
                 <h2 className="w-full text-[36px] font-extrabold leading-[1.15] text-white sm:text-[52px] xl:text-[80px] xl:leading-[81.6px]">
                   Start Your Factory Construction Project
                 </h2>
-                <p className="w-full text-[17px] font-medium leading-[1.55] text-white/70 sm:text-[20px] xl:text-[24px] xl:leading-[37.333px]">
-                  Speak with our team about your manufacturing facility, industrial
-                  plant, utility infrastructure, or heavy engineering project
-                  requirements. We deliver turnkey solutions with a focus on
-                  execution quality, safety, and long-term operational value.
-                </p>
               </div>
 
               {/* Lead prompt, tick list and the two contact cards */}
-              <div className="flex w-full flex-col items-start gap-[24px]">
+              <div className="flex w-full flex-col items-start gap-[24px] max-xl:contents">
                 {/* Prompt + ticks (fixed 201.48px block on desktop) */}
-                <div className="relative w-full xl:h-[201.48px]">
+                <div className="relative w-full max-xl:mb-6 xl:h-[201.48px]">
                   <p className="w-full text-[18px] font-semibold leading-[1.5] text-white/80 sm:text-[20px] xl:text-[24px] xl:leading-[36px]">
                     Discuss your manufacturing facility, industrial plant, or heavy
                     infrastructure requirement with our team.
@@ -140,47 +143,8 @@ export default function CtaSection() {
                   </ul>
                 </div>
 
-                {/* Contact cards (Call Now + WhatsApp), each 120px tall plus a 12px lead-in */}
-                <div className="flex w-full flex-col gap-[16px] xl:w-[837.333px] xl:gap-[21.333px]">
-                  {/* Call Now */}
-                  <div className="flex w-full items-end xl:h-[132px] xl:w-[693.333px]">
-                    <a
-                      href={`tel:${PHONE_NUMBER}`}
-                      className="flex h-[104px] w-full items-center gap-[16px] rounded-[29.333px] border-[1.333px] border-solid border-black/5 bg-[#212121] pl-[18px] pr-[20px] transition-colors hover:bg-[#2b2b2b] xl:h-[120px] xl:gap-[22.67px] xl:pl-[25.33px] xl:pr-[27px]"
-                    >
-                      <span className="flex size-[56px] shrink-0 items-center justify-center rounded-[22px] bg-[#cc000a] xl:size-[64px] xl:rounded-[24px]">
-                        <img src="/cta/phone.svg" alt="" width={26.667} height={26.667} className="block size-[26.667px] max-w-none" />
-                      </span>
-                      <span className="flex flex-col items-start">
-                        <span className="text-[14px] font-bold uppercase leading-[21.333px] text-[#a9a9a9] xl:text-[16px]">
-                          Call Now
-                        </span>
-                        <span className="text-[19px] font-extrabold leading-[32px] text-white xl:text-[21.333px]">
-                          {PHONE_DISPLAY}
-                        </span>
-                      </span>
-                      <img src="/cta/arrow.svg" alt="" width={26.667} height={26} className="ml-auto block h-[26px] w-[26.667px] max-w-none" />
-                    </a>
-                  </div>
-
-                  {/* WhatsApp */}
-                  <div className="flex w-full items-end xl:h-[132px] xl:w-[693.333px]">
-                    <a
-                      href={WHATSAPP_HREF}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex h-[104px] w-full items-center gap-[16px] rounded-[29.333px] border-[1.333px] border-solid border-black/5 bg-[#212121] p-[18px] transition-colors hover:bg-[#2b2b2b] xl:h-[120px] xl:gap-[21.333px] xl:p-[28px]"
-                    >
-                      <span className="flex size-[56px] shrink-0 items-center justify-center rounded-[22px] bg-[#cc000a] xl:size-[64px] xl:rounded-[24px]">
-                        <img src="/cta/whatsapp.webp" alt="" width={38.667} height={38.667} className="block size-[38.667px] max-w-none object-cover" />
-                      </span>
-                      <span className="text-[20px] font-bold leading-[27.46px] text-white xl:text-[26px]">
-                        WhatsApp Us Now
-                      </span>
-                      <img src="/cta/arrow.svg" alt="" width={26.667} height={26} className="ml-auto block h-[26px] w-[26.667px] max-w-none" />
-                    </a>
-                  </div>
-                </div>
+                <div className="w-full max-xl:mb-12"><CtaContactCards /></div>
+                <OfficesDirectory className="max-xl:order-1 max-xl:mt-12 xl:w-[693.333px]" />
               </div>
             </div>
 
@@ -352,7 +316,7 @@ export default function CtaSection() {
                 disabled={isSubmitting}
                 className="flex h-[58px] w-full items-center justify-center rounded-[8px] bg-[#c4161c] px-[36px] py-[18px] text-center text-[16px] font-extrabold leading-[normal] text-[#f5f5f5] drop-shadow-[0px_8px_16px_rgba(196,22,28,0.3)] transition-colors hover:bg-[#ad1318] disabled:cursor-not-allowed disabled:opacity-80"
               >
-                {isSubmitting ? "Submitting..." : "Get a Free Quote →"}
+                {isSubmitting ? "Submitting..." : "Request an Estimate →"}
               </button>
 
               <p className="w-full text-center text-[10.667px] font-medium leading-[normal] tracking-[0.3px] text-[#5a5a5a]">
@@ -366,9 +330,9 @@ export default function CtaSection() {
                 </p>
               ) : null}
             </form>
+
           </div>
         </div>
-      </div>
     </section>
   );
 }

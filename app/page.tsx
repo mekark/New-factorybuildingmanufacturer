@@ -1,6 +1,6 @@
 import CtaSection from "../components/CtaSection";
 import FactoryAdvantageSection from "../components/FactoryAdvantageSection";
-import FloatingContact from "../components/FloatingContact";
+import DeferredFloatingContact from "../components/DeferredFloatingContact";
 import FaqSection from "../components/FaqSection";
 import HeroSection from "../components/HeroSection";
 import MarketAdvantageSection from "../components/MarketAdvantageSection";
@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-white text-[#18181B]">
       <Navbar />
-      <FloatingContact />
+      <DeferredFloatingContact />
       {/* Hero: headline, client logos, stats and enquiry form (Figma "Hero Component") */}
       <HeroSection />
       {/* Our Process: six-step project path (Figma "Landing Page") */}

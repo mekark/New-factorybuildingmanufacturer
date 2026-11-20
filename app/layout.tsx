@@ -2,6 +2,7 @@
 import { Manrope } from "next/font/google";
 import Footer from "../components/Footer";
 import DeferredGoogleTagManager from "../components/DeferredGoogleTagManager";
+import MobileStickyBar from "../components/MobileStickyBar";
 import MobileZoom from "../components/MobileZoom";
 import "./globals.css";
 
@@ -25,9 +26,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var d=document.documentElement,w=d.clientWidth,z=Math.min(Math.max(w/390,0.82),1.5);d.style.setProperty('--mobile-zoom',String(z))})();`,
+          }}
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/hero/mobile/design-banner-lcp.webp"
+          media="(max-width: 1279px)"
+        />
+        <link rel="preload" as="image" href="/hero/hero-bg.webp" media="(min-width: 1280px)" />
+      </head>
       <body
-        className={`${manrope.variable} relative overflow-x-hidden font-sans antialiased`}
+        className={`${manrope.variable} relative overflow-x-hidden pb-16 font-sans antialiased md:pb-0`}
       >
         <noscript>
           <iframe
@@ -40,7 +55,7 @@ export default function RootLayout({
         <MobileZoom />
         <div className="relative">{children}</div>
         <Footer />
-        {/* Loads GTM after the first interaction (or a 5s fallback); immediately on /thank-you */}
+        <MobileStickyBar />
         <DeferredGoogleTagManager gtmId={GTM_ID} />
       </body>
     </html>

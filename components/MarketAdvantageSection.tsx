@@ -2,9 +2,7 @@
 
 import { Inter, Space_Grotesk } from "next/font/google";
 import { CSSProperties, useRef } from "react";
-import MarketAdvantageMobile from "./MarketAdvantageMobile";
 import { useCanvasZoom } from "./useCanvasZoom";
-
 // Inter: body copy of cards 02 and 03. Space Grotesk: the big step numbers.
 const inter = Inter({ subsets: ["latin"], weight: ["400"] });
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], weight: ["700"] });
@@ -126,47 +124,32 @@ const CARDS: Card[] = [
   },
 ];
 
-/* ============================================================
-   MARKET ADVANTAGE SECTION
-   ============================================================ */
-
 export default function MarketAdvantageSection() {
   const canvasRef = useRef<HTMLDivElement>(null);
   useCanvasZoom(canvasRef);
 
   return (
-    /* ==========================================================
-       SECTION WRAPPER — full-bleed #040303, 1920×1024 design canvas
-       ========================================================== */
-    <section className="overflow-hidden bg-[#040303] font-sans">
-      {/* ---------- Mobile / tablet layout (below 1280px): separate component, see MarketAdvantageMobile.tsx ---------- */}
-      <MarketAdvantageMobile />
-
-      {/* ---------- Desktop layout (1280px and up): unchanged ---------- */}
-      <div className="hidden xl:block">
-        {/* ---------- Design canvas (zoomed to the viewport on desktop) ---------- */}
+    <section className="overflow-hidden bg-[#0a0a0a] font-sans xl:bg-[#040303]">
         <div
           ref={canvasRef}
-          className="canvas-zoom mx-auto w-full px-5 py-14 sm:px-8 sm:py-16 xl:w-[1920px] xl:px-[106.667px] xl:py-[80px]"
+          className="mobile-col canvas-zoom mx-auto w-full px-5 py-5 sm:px-8 sm:py-16 xl:w-[1920px] xl:px-[106.667px] xl:py-[80px]"
         >
           <div className="flex flex-col items-start gap-[32px] xl:gap-[50px]">
             {/* ---------- Centered heading block ---------- */}
-            <div className="flex w-full flex-col items-center gap-[16px] text-center xl:w-[1705.333px] xl:gap-[21px]">
-              <div className="flex w-full flex-col items-center gap-[10px] font-bold xl:w-[1488px]">
-                {/* Eyebrow */}
-                <p className="w-full text-[13px] font-bold uppercase leading-[21.333px] text-[#e50818] xl:text-[16px]">
+            <div className="flex w-full flex-col items-start gap-3 text-left xl:items-center xl:gap-[21px] xl:text-center xl:w-[1705.333px]">
+              <div className="flex w-full flex-col items-start gap-[10px] font-bold xl:items-center xl:w-[1488px]">
+                <p className="hidden w-full text-[16px] font-bold uppercase leading-[21.333px] text-[#e50818] xl:block">
                   Market advantage
                 </p>
-                {/* Heading: white + red highlight */}
-                <h2 className="w-full text-[32px] font-bold leading-[1.2] sm:text-[48px] xl:text-[66px] xl:leading-[80px]">
-                  <span className="text-white">Why Top Industries </span>
-                  <span className="text-[#e50818]">Choose Mekark</span>
+                <h2 className="w-full text-[28px] font-extrabold leading-[34px] text-white xl:text-[66px] xl:font-bold xl:leading-[80px]">
+                  Why Top Industries <span className="text-[#e53935] xl:text-[#e50818]">Choose Mekark</span>
                 </h2>
               </div>
-              {/* Sub-heading */}
-              <p className="w-full text-[16px] font-normal leading-[1.5] text-[#e8e8e8] sm:text-[20px] xl:w-[1488px] xl:text-[24px] xl:leading-[30px]">
-                Leading the industrial construction sector with unmatched capacity
-                and precision.
+              <p className="w-full text-[14px] font-normal leading-[20px] text-[#888888] xl:text-[24px] xl:leading-[30px] xl:text-[#e8e8e8]">
+                <span className="xl:hidden">India’s Leading PEB manufacturer &amp; Constructor.</span>
+                <span className="hidden xl:inline">
+                  Leading the industrial construction sector with unmatched capacity and precision.
+                </span>
               </p>
             </div>
 
@@ -232,7 +215,6 @@ export default function MarketAdvantageSection() {
             </div>
           </div>
         </div>
-      </div>
     </section>
   );
 }
