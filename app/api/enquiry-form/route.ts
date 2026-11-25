@@ -1,33 +1,51 @@
 import { NextResponse } from "next/server";
 
 const UPSTREAM_ENDPOINT =
-  "https://mekark-mail.onrender.com/api/enquiry-form";
+  process.env.ENQUIRY_API_URL || "https://api.mekark.com/api/enquiry-form";
+
+const fail = (message: string, status: number) =>
+  NextResponse.json({ success: false, message }, { status });
+
+const hostnameOf = (value: string | null | undefined) => {
+  if (!value) return undefined;
+  try {
+    return new URL(value).hostname;
+  } catch {
+    return undefined;
+  }
+};
+
+const text = (value: unknown) =>
+  typeof value === "string" ? value.trim() : "";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const origin = request.headers.get("origin");
-    const referer = request.headers.get("referer");
+    const body = await request.json().catch(() => null);
 
-    if (!body.name || !body.phone || !body.service || !body.sqf) {
-      return NextResponse.json(
-        {
-          message:
-            "Name, phone, project type and sqft are required",
-        },
-        { status: 400 },
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return fail(
+        "Invalid request. Please refresh the page and try again.",
+        400,
       );
     }
+
+    if (!text(body.name) || !text(body.phone)) {
+      return fail("Please enter your name and phone number.", 400);
+    }
+
+    const origin = request.headers.get("origin");
+    const referer = request.headers.get("referer");
 
     const payload = {
       ...body,
       sourceDomain:
-        body.sourceDomain ||
-        (origin ? new URL(origin).hostname : undefined) ||
-        (referer ? new URL(referer).hostname : undefined),
+        text(body.sourceDomain) ||
+        hostnameOf(origin) ||
+        hostnameOf(referer) ||
+        undefined,
       sourceUrl:
-        body.sourceUrl ||
-        body.pageUrl ||
+        text(body.sourceUrl) ||
+        text(body.pageUrl) ||
         referer ||
         origin ||
         undefined,
@@ -42,36 +60,36 @@ export async function POST(request: Request) {
         ...(referer ? { Referer: referer } : {}),
       },
       body: JSON.stringify(payload),
+      cache: "no-store",
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
+      console.error(
+        "Enquiry upstream error:",
+        response.status,
+        await response.text().catch(() => ""),
+      );
 
-      console.error("External API error:", errorText);
+      if (response.status >= 500) {
+        return fail(
+          "Our server is having trouble right now. Please try again in a moment or call us directly.",
+          502,
+        );
+      }
 
-      return NextResponse.json(
-        {
-          message: "Failed to submit form to external service",
-        },
-        { status: response.status },
+      return fail(
+        "We couldn't accept your details. Please check the form and try again.",
+        400,
       );
     }
 
-    const data = await response.json().catch(() => ({}));
-
-    return NextResponse.json(
-      {
-        success: true,
-        data,
-      },
-      { status: 200 },
-    );
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("API route error:", error);
+    console.error("Enquiry API route error:", error);
 
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 },
+    return fail(
+      "Something went wrong while submitting your enquiry. Please try again or call us directly.",
+      500,
     );
   }
 }

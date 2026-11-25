@@ -153,6 +153,9 @@ export function useEnquiryForm() {
           budget: "",
           message: values.requirements.trim(),
           service: values.industryType,
+          industry: values.industryType,
+          sourceName: "Mekark Turnkey",
+          sourceDomain: window.location.hostname,
           sourceUrl: window.location.href,
           pageUrl: window.location.href,
         }),
@@ -161,19 +164,19 @@ export function useEnquiryForm() {
       const payload = await response.json().catch(() => null);
 
       if (!response.ok) {
-        throw new Error(
-          payload?.message ||
-            "We could not submit your enquiry right now. Please try again.",
+        setSubmitError(
+          payload?.message || "Something went wrong. Please try again.",
         );
+        return;
       }
 
       setValues(INITIAL_VALUES);
       window.location.assign(THANK_YOU_URL);
     } catch (error) {
       setSubmitError(
-        error instanceof Error
-          ? error.message
-          : "We could not submit your enquiry right now. Please try again.",
+        error instanceof TypeError
+          ? "Network error. Please check your internet connection and try again."
+          : "Something went wrong. Please try again.",
       );
     } finally {
       setIsSubmitting(false);
